@@ -9,6 +9,10 @@ const Main = () => {
     const [ searchRepoInput, setSearchRepoInput ] = useState('');
     const [isEmptySearchClass, setisEmptySearchClass] = useState('searchInput');
 
+    const [ sortRepo, setSortRepo] = useState('star');
+    const [ oderRepo, setOrderRepo ] = useState('desc');
+    const [ sortReposPerPage, setSortReposPerPage ] = useState(10);
+
 
 
     const handleSearchOnChange = (e) =>{
@@ -19,7 +23,8 @@ const Main = () => {
         // https://developer.github.com/v3/repos/
         // https://developer.github.com/v3/guides/traversing-with-pagination/
 
-        const repoSearchUrl = "https://api.github.com/search/repositories?q="+searchRepoInput+"&sort=star&order=desc&per_page=10&page=1";
+    const [ sortReposPerPage, setSortReposPerPage ] = useState(10);
+        const repoSearchUrl = "https://api.github.com/search/repositories?q="+searchRepoInput+"&sort="+sortRepo+"&order="+oderRepo+"&per_page="+sortReposPerPage+"&page=1";
 
         await axios.get(repoSearchUrl)
         .then(result => {
