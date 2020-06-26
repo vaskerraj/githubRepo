@@ -1,7 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import ReactPaginate from 'react-paginate';
+import Pagination from "react-js-pagination";
 
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,11 +19,13 @@ const Main = () => {
 
     const [repos, setRepos ] = useState([]);
 
-    const [pageCount, setPageCount ] = useState(0);
+    const [totalRepos , setTotalRepos] = useState(0);
     const [ reposPageNo, setReposPageNo ] = useState(1);
 
     useEffect(() => {
-        receiveRepoData();
+        if(searchRepoInput !== ''){
+            receiveRepoData();
+        }
     }, [reposPageNo]);
 
     const handleSearchOnChange = (e) =>{
@@ -45,8 +47,9 @@ const Main = () => {
             // update state of repos
             setRepos(result.data);
 
-            const pageAfterResult = Math.ceil(result.data.total_count / sortReposPerPage);
-            setPageCount(pageAfterResult);
+            setTotalRepos(result.data.total_count);
+
+            // const pageAfterResult = Math.ceil(result.data.total_count / sortReposPerPage);
         });
     }
 
@@ -62,12 +65,10 @@ const Main = () => {
         receiveRepoData();
     }
 
-    const handlePageChange = (data) =>{
-        console.log(data.selected);
-
-        setReposPageNo(data.selected);
+    const handlePageChange = (pageNumber) =>{
+        setReposPageNo(pageNumber);
     }
-    
+
     return(
         <div>
         <nav className="navbar navbar-dark bg-dark justify-content-between">
@@ -80,26 +81,24 @@ const Main = () => {
             </form>
         </nav>
         <div className="container">
-        {pageCount !== 0 &&
+        {totalRepos !== 0 &&
             (
             <div>
                 <div className="row">
                     <Reposlist repos={repos} />
                 </div>
                 <div className="d-flex">
-                    <ReactPaginate
-                        previousLabel={'previous'}
-                        nextLabel={'next'}
-                        breakLabel={'...'}
-                        breakClassName={'break-me'}
-                        pageCount={pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={handlePageChange}
-                        containerClassName={'pagination'}
-                        subContainerClassName={'pages pagination'}
-                        activeClassName={'active'}
-                        />
+                <Pagination
+                    prevPageText='Prev'
+                    nextPageText='Next'
+                    firstPageText='First'
+                    lastPageText='Last'
+                    activePage={reposPageNo}
+                    itemsCountPerPage={sortReposPerPage}
+                    totalItemsCount={totalRepos}
+                    pageRangeDisplayed={5}
+                    onChange={ handlePageChange }
+                    />
                 </div>
             </div>
             )
