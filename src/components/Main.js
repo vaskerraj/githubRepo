@@ -95,6 +95,18 @@ const Main = () => {
         }else if(sortValue === "Most star"){
             setSortRepo('stars');
             setOrderRepo('desc');
+        }else if(sortValue === "Most forks"){
+            setSortRepo('forks');
+            setOrderRepo('desc');
+        }else if(sortValue === "Fewest forks"){
+            setSortRepo('forks');
+            setOrderRepo('asc');
+        }else if(sortValue === "Recently updated"){
+            setSortRepo('updated');
+            setOrderRepo('desc');
+        }else if(sortValue === "Least recently updated"){
+            setSortRepo('updated');
+            setOrderRepo('asc');
         }
     }
 
@@ -114,31 +126,37 @@ const Main = () => {
             (
             <div>
                 <div className="row mt-2">
-                    <div className="col-md-4 col-xs-6 text-dark border-gray border-right">
+                    <div className="col-md-4 col-6 text-dark border-gray border-right">
                         <h3 className="mt-3 text-left">{repos.total_count} repository results </h3>
                     </div>
-                    <div className="col-md-8 col-xs-6 current-page text-left">
-                        <div className="d-inline-block h-100 pl-2 pr-3 border-gray border-right text-secondary ">
-                            <div className="mt-3">
-                                <span className="pageText mr-2">Page</span>
-                                <span className="font-weight-bold">{reposPageNo} / </span> 
-                                <span className="font-weight-bold">{totalPaging}</span>
-                            </div>
+                    <div className="col-md-2 col-sm-6 col-6 h-100 text-center text-secondary mt-md-3 mt-4">
+                        <div className="mt-1">
+                            <span className="pageText mr-2">Page</span>
+                            <span className="font-weight-bold">{reposPageNo} / </span> 
+                            <span className="font-weight-bold">{totalPaging}</span>
                         </div>
-                        <div className="d-inline-block pl-3 pr-3 h-100 border-gray border-right">
-                            <span className="mr-2">Page </span>
+                    </div>
+                    <div className="col-md-2 col-sm-6 col-6 h-100 text-center border-gray border-left border-right mt-3">
+                        <div className="mt-1">
                             <select className="sortPerPage" onChange={(e) => handlePerPageChange(e)} value={sortReposPerPage} >
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="50">50</option>
                             </select>
+                            <span className="mr-2"> Entries </span>
                         </div>
-                        <div className="d-inline-block pl-3 h-100">
+                    </div>
+                    <div className="col-md-4 col-sm-6 col-6 h-100 mt-2 text-right">
+                        <div className="mt-2">
                             <span className="mr-2">Sort</span>
                             <select className="sortRepos" onChange={(e) => handleSortChange(e)} >
                                 <option>Best match</option>
                                 <option>Most star</option>
                                 <option>Fewest star</option>
+                                <option>Most forks</option>
+                                <option>Fewest forks</option>
+                                <option>Recently updated</option>
+                                <option>Least recently updated</option>
                             </select>
                         </div>
                     </div>
