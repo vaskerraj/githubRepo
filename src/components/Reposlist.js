@@ -20,7 +20,7 @@ const Reposlist = (props) =>{
                 <div className="card">
                     <div className="card-block">
                         <div className="card-title font-weight-bolder mt-3">
-                            <span className="fa fa-github text-primary"></span> {full_name}
+                            <span className="fa fa-github text-primary" style={{fontSize: "18px"}}></span> {full_name}
                         </div>
                         <div className="card-body">
                             <div className="d-flex">{truncateDescription(description, 50)}</div>
