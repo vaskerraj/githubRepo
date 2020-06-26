@@ -59,6 +59,11 @@ const Main = () => {
 
         if(searchRepoInput === ''){
             setisEmptySearchClass('searchInput empty');
+            // remove class `empty` after shake end if search input is empty
+            document.querySelector('.searchInput').addEventListener('animationend', function(){
+                setisEmptySearchClass('searchInput');
+            });
+            return;
         }
 
         // call function  for data reterive
@@ -67,6 +72,7 @@ const Main = () => {
 
     const handlePageChange = (pageNumber) =>{
         setReposPageNo(pageNumber);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     return(
