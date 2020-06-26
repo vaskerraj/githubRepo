@@ -15,7 +15,7 @@ const Main = () => {
 
     const [repos, setRepos ] = useState([]);
 
-
+    const [ pagination, setPagination ] = useState('');
 
     const handleSearchOnChange = (e) =>{
         setSearchRepoInput(e.target.value);
@@ -33,6 +33,17 @@ const Main = () => {
 
             // update state of repos
             setRepos(result.data);
+
+            const link = result.headers.link;
+            const links = link.split(",");
+            const urls = links.map(urlItem=> {
+                return {
+                    url: urlItem.split(";")[0].replace(">","").replace("<",""),
+                    title:urlItem.split(";")[1]
+                }
+            });
+            console.log(urls);
+            setPagination(urls);
         });
     }
 
@@ -70,6 +81,18 @@ const Main = () => {
         <div></div>
     );
 
+    const repoPagnination = pagination.length !== 0 ? (
+        pagination.map((item)=>{
+            var pagingTitleWithQuote = item.title.split("=")[1],
+                pagingTitle = pagingTitleWithQuote.replace(/["]/g, ""),
+                pagingNumber = item.url.split("page=")[1];
+            console.log(`page number : ${pagingNumber} and page title : ${pagingTitle}`);
+            return <div className="pagination"><li key={item.title}>{pagingTitle}</li></div>
+        })
+    ): (
+        <div></div>
+    )
+
     return(
         <div>
         <nav className="navbar navbar-dark bg-dark justify-content-between">
@@ -84,6 +107,9 @@ const Main = () => {
         <div className="container">
             <div className="row">
                 {listOfRepos}
+            </div>
+            <div className="d-flex">
+                {repoPagnination}
             </div>
         </div>
         </div>
