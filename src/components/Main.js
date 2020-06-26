@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
@@ -19,6 +19,10 @@ const Main = () => {
 
     const [pageCount, setPageCount ] = useState();
     const [ reposPageNo, setReposPageNo ] = useState(1);
+
+    useEffect(() => {
+        receiveRepoData();
+    }, [reposPageNo]);
 
     const handleSearchOnChange = (e) =>{
         setSearchRepoInput(e.target.value);
@@ -61,8 +65,6 @@ const Main = () => {
 
         setReposPageNo(data.selected);
 
-        // call function for data reterive in pagination click
-        receiveRepoData();
     }
 
     const listOfRepos = repos.total_count !== undefined ? ( 
@@ -104,7 +106,6 @@ const Main = () => {
                 {listOfRepos}
             </div>
             <div className="d-flex">
-                {repoPagnination}
                 <ReactPaginate
                     previousLabel={'previous'}
                     nextLabel={'next'}
