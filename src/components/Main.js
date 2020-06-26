@@ -17,7 +17,7 @@ const Main = () => {
 
     const [repos, setRepos ] = useState([]);
 
-    const [pageCount, setPageCount ] = useState();
+    const [pageCount, setPageCount ] = useState(0);
     const [ reposPageNo, setReposPageNo ] = useState(1);
 
     useEffect(() => {
@@ -102,24 +102,30 @@ const Main = () => {
             </form>
         </nav>
         <div className="container">
-            <div className="row">
-                {listOfRepos}
+        {pageCount !== 0 &&
+            (
+            <div>
+                <div className="row">
+                    {listOfRepos}
+                </div>
+                <div className="d-flex">
+                    <ReactPaginate
+                        previousLabel={'previous'}
+                        nextLabel={'next'}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageChange}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                        />
+                </div>
             </div>
-            <div className="d-flex">
-                <ReactPaginate
-                    previousLabel={'previous'}
-                    nextLabel={'next'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageChange}
-                    containerClassName={'pagination'}
-                    subContainerClassName={'pages pagination'}
-                    activeClassName={'active'}
-                    />
-            </div>
+            )
+        }
         </div>
         </div>
     );
