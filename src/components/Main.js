@@ -13,6 +13,8 @@ const Main = () => {
     const [ oderRepo, setOrderRepo ] = useState('desc');
     const [ sortReposPerPage, setSortReposPerPage ] = useState(10);
 
+    const [repos, setRepos ] = useState([]);
+
 
 
     const handleSearchOnChange = (e) =>{
@@ -23,13 +25,14 @@ const Main = () => {
         // https://developer.github.com/v3/repos/
         // https://developer.github.com/v3/guides/traversing-with-pagination/
 
-    const [ sortReposPerPage, setSortReposPerPage ] = useState(10);
         const repoSearchUrl = "https://api.github.com/search/repositories?q="+searchRepoInput+"&sort="+sortRepo+"&order="+oderRepo+"&per_page="+sortReposPerPage+"&page=1";
 
         await axios.get(repoSearchUrl)
         .then(result => {
             console.log(result.data);
 
+            // update state of repos
+            setRepos(result.data);
         });
     }
 
@@ -44,7 +47,20 @@ const Main = () => {
         // call function  for data reterive
         receiveRepoData();
     }
+
+    const listOfRepos = repos.total_count !== undefined ? ( 
+        repos.items.map((items)=>{
+        const { full_name, description, } = items;
+        return(
+            <li key={items.id}>{full_name}/ {description}</li>
+        );
+    })
+    ):(
+        <li></li>
+    );
+
     return(
+        <div>
         <nav className="navbar navbar-dark bg-dark justify-content-between">
             <div className="navbar-brand">Github</div>
             <form className="form-inline" onSubmit={handleSearchOnSubmit}>
@@ -54,6 +70,12 @@ const Main = () => {
             </button>
             </form>
         </nav>
+        <div className="container">
+            <ul>
+                {listOfRepos}
+            </ul>
+        </div>
+        </div>
     );
 }
 
