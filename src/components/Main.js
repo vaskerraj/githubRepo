@@ -1,6 +1,8 @@
 import React , {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
+
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -15,6 +17,9 @@ const Main = () => {
 
     const [repos, setRepos ] = useState([]);
 
+    const [pageCount, setPageCount ] = useState();
+    const [ reposPageNo, setReposPageNo ] = useState(1);
+
     const [ pagination, setPagination ] = useState('');
 
     const handleSearchOnChange = (e) =>{
@@ -25,7 +30,9 @@ const Main = () => {
         // https://developer.github.com/v3/repos/
         // https://developer.github.com/v3/guides/traversing-with-pagination/
 
-        const repoSearchUrl = "https://api.github.com/search/repositories?q="+searchRepoInput+"&sort="+sortRepo+"&order="+oderRepo+"&per_page="+sortReposPerPage+"&page=1";
+        const repoSearchUrl = "https://api.github.com/search/repositories?q="+searchRepoInput+"&sort="+sortRepo+"&order="+oderRepo+"&per_page="+sortReposPerPage+"&page="+reposPageNo+"";
+
+        console.log(repoSearchUrl);
 
         await axios.get(repoSearchUrl)
         .then(result => {
@@ -33,6 +40,9 @@ const Main = () => {
 
             // update state of repos
             setRepos(result.data);
+
+            const pageAfterResult = Math.ceil(result.data.total_count / sortReposPerPage);
+            setPageCount(pageAfterResult)
 
             const link = result.headers.link;
             const links = link.split(",");
@@ -59,6 +69,15 @@ const Main = () => {
         receiveRepoData();
     }
 
+    const handlePageChange = (data) =>{
+        console.log(data.selected);
+
+        setReposPageNo(data.selected);
+
+        // call function for data reterive in pagination click
+        receiveRepoData();
+    }
+
     const listOfRepos = repos.total_count !== undefined ? ( 
         repos.items.map((items)=>{
         const { full_name, description } = items;
@@ -70,7 +89,7 @@ const Main = () => {
                             {full_name}
                         </div>
                         <div className="card-body">
-                           {description} 
+                            <div className="d-flex">{description}</div>
                         </div>
                     </div>
                 </div>
@@ -86,7 +105,7 @@ const Main = () => {
             var pagingTitleWithQuote = item.title.split("=")[1],
                 pagingTitle = pagingTitleWithQuote.replace(/["]/g, ""),
                 pagingNumber = item.url.split("page=")[1];
-            console.log(`page number : ${pagingNumber} and page title : ${pagingTitle}`);
+            // console.log(`page number : ${pagingNumber} and page title : ${pagingTitle}`);
             return <div className="pagination"><li key={item.title}>{pagingTitle}</li></div>
         })
     ): (
@@ -110,6 +129,19 @@ const Main = () => {
             </div>
             <div className="d-flex">
                 {repoPagnination}
+                <ReactPaginate
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    breakClassName={'break-me'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageChange}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+                    activeClassName={'active'}
+                    />
             </div>
         </div>
         </div>
