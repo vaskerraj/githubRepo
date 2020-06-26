@@ -66,10 +66,8 @@ const Main = () => {
         console.log(data.selected);
 
         setReposPageNo(data.selected);
-
     }
-
-
+    
     return(
         <div>
         <nav className="navbar navbar-dark bg-dark justify-content-between">
