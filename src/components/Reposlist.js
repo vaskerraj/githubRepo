@@ -42,7 +42,7 @@ const Reposlist = (props) =>{
                                     <span className="fa fa-code-fork"></span> {kFormatter(forks)}
                                 </div>
                                 <div className=" pr-2">
-                                    <FontAwesomeIcon icon={faClock} color="#ddd" /> <Moment fromNow>{updated_at}</Moment>
+                                    <span className="fa fa-clock-o"></span> <Moment fromNow>{updated_at}</Moment>
                                 </div>
                             </div>
                         </div>
