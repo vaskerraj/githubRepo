@@ -11,6 +11,9 @@ const RepoDetail = (props)=>{
     const paramsAuthorname = props.match.params.full_name;
     const paramsReponame = props.match.params.name;
 
+    const parentWindowHeight = document.body.scrollHeight;
+    console.log(parentWindowHeight);
+
     useEffect(() => {
         // disable browser overflow
         // document.documentElement.style.overflow = 'hidden';
@@ -18,7 +21,7 @@ const RepoDetail = (props)=>{
 
         receiveReopInfo(paramsAuthorname, paramsReponame);
 
-    },[paramsAuthorname, paramsReponame]);
+    },[paramsAuthorname]);
 
     const receiveReopInfo = async(author, name) =>{
 
@@ -51,11 +54,11 @@ const RepoDetail = (props)=>{
     }
 
     return(
-        <div className="repoDetails">
+        <div className="repoDetails flex" style={{ height: parentWindowHeight }}>
             <nav className="navbar navbar-dark bg-dark justify-content-between text-white">
                 <div className="row">
                     <div className=" col-md-4 col-4">
-                        <div className="navbar-brand" style={{ cursor : 'pointer'}} onClick={()=> window.history.back()}>
+                        <div className="navbar-brand" style={{ cursor : 'pointer'}} onClick={()=> props.history.goBack() }>
                             <span className="fa fa-long-arrow-left mr-3"></span>
                             Back
                         </div>
@@ -70,22 +73,44 @@ const RepoDetail = (props)=>{
                         <div className="row">
                             <div className="col-md-4 mt-2">
                                 <div className="d-flex">
-                                    <img src={repoDetail.owner.avatar_url} className="Owner-avatar" />
+                                    <img src={repoDetail.owner.avatar_url} className="ownerAvatar" />
                                 </div>
                                 <ul className="list-unstyled mt-2">
-                                    <li><span className="fa fa-user text-muted"></span> { repoDetail.owner.login }</li>
-                                    <li className="mt-1"><span className="fa fa-link text-muted"></span> <a href={ repoDetail.owner.html_url } target="_blank">{ repoDetail.owner.html_url }</a></li>
-                                    <li className="mt-4"><span className="fa fa-github text-primary"></span> { repoDetail.name }</li>
-                                    <li className="mt-1"><span className="fa fa-link text-muted"></span> <a href={ repoDetail.html_url } target="_blank">{ repoDetail.html_url }</a></li>
-                                    <li className="mt-4"><span className="fa fa-exclamation-circle text-muted"></span> Issues : { repoDetail.open_issues }</li>
-                                    <li className="mt-4"><span className="fa fa-code-fork text-muted"></span> Default Branch : { repoDetail.default_branch }</li>
+                                    <li>
+                                        <span className="fa fa-user text-muted mr-1"></span>
+                                        { repoDetail.owner.login }
+                                    </li>
+                                    <li className="mt-1">
+                                        <span className="fa fa-link text-muted mr-1"></span>
+                                        <a href={ repoDetail.owner.html_url } target="_blank" rel="noopener noreferrer">
+                                            { repoDetail.owner.html_url }
+                                        </a>
+                                    </li>
+                                    
+                                    <li className="mt-4">
+                                        <span className="fa fa-github text-primary mr-1"></span>
+                                        { repoDetail.name }
+                                    </li>
+                                    <li className="mt-1">
+                                        <span className="fa fa-link text-muted mr-1"></span>
+                                        <a href={ repoDetail.html_url } target="_blank" rel="noopener noreferrer">
+                                            { repoDetail.html_url }
+                                        </a>
+                                    </li>
+                                    <li className="mt-4">
+                                        <span className="fa fa-exclamation-circle text-muted  mr-1"></span> Issues : { repoDetail.open_issues }
+                                    </li>
+                                    <li className="mt-4">
+                                        <span className="fa fa-code-fork text-muted mr-1"></span>
+                                        Default Branch : { repoDetail.default_branch }
+                                    </li>
                                 </ul>
                                 
                             </div>
                             <div className="col-md-8 mt-4 border-left border-gray">
                                 <div className="card mb-2">
                                     <div className="card-block">
-                                        <div className="card-title mt-2 pb-2 border-bottom">README.md</div>
+                                        <div className="card-title mt-2 pb-2 font-weight-bolder border-bottom">README.md</div>
                                         <div className="card-body">
                                             <ReactMarkdown source={repoContent} />
                                         </div>

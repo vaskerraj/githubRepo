@@ -120,6 +120,7 @@
     min-height: 100%;
     background : #fff;
     position: absolute;
+    z-index: 999;
     top: 0;
     left: 0;
     overflow-y: hidden;
@@ -128,6 +129,6 @@
 .repoDetails .navbar{
   display: block;
 }
-.Owner-avatar {
+img.ownerAvatar {
   height: 150px;
 }
