@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
 const RepoDetail = (props)=>{
     console.log(props);
@@ -84,7 +85,7 @@ const RepoDetail = (props)=>{
                                 
                             </div>
                             <div className="col-md-8 mt-4 border-left border-gray">
-                                <pre className="readmeContent"></pre>
+                                <ReactMarkdown source={repoContent} />
                             </div>
                         </div>
                     )
