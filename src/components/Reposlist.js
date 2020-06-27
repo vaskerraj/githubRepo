@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import 'moment-timezone';
+
 
 const Reposlist = (props) =>{
 
     const { repos } = props;
-    
+
     const kFormatter = (num)=> {
         return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
     }
@@ -14,13 +16,16 @@ const Reposlist = (props) =>{
     };
     const listOfRepos = repos.total_count !== undefined ? ( 
         repos.items.map((item)=>{
-        const { full_name, description, watchers, watchers_count, forks, updated_at } = item;
+        const { name, full_name, description, watchers, watchers_count, forks, updated_at } = item;
         return(
             <div className="col-md-4 col-sm-6 col-xs-12 mt-4" key={item.id}>
                 <div className="card">
                     <div className="card-block">
                         <div className="card-title font-weight-bolder mt-3">
+                    
+                        <Link to={`/details/${ full_name }/${ name }`} state={item} >
                             <span className="fa fa-github text-primary" style={{fontSize: "18px"}}></span> {full_name}
+                        </Link> 
                         </div>
                         <div className="card-body">
                             <div className="d-flex">{truncateDescription(description, 50)}</div>
