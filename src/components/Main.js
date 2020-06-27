@@ -1,5 +1,4 @@
 import React , {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from "react-js-pagination";
 
@@ -113,7 +112,7 @@ const Main = () => {
     return(
         <div>
         <nav className="navbar navbar-dark bg-dark justify-content-between">
-            <div className="navbar-brand">Github</div>
+            <div className="navbar-brand">Github Repo</div>
             <form className="form-inline" onSubmit={handleSearchOnSubmit}>
             <input className={isEmptySearchClass} type="search" placeholder="Search repository" onChange={handleSearchOnChange} />
             <button className="searchButton my-2 my-sm-0" type="submit">
