@@ -8,19 +8,16 @@ const RepoDetail = (props)=>{
     const [ repoDetail, setRepoDetail ] = useState();
     const [ repoContent, setRepoContent ] = useState();
 
+    const parentWindowHeight = props.history.action === "PUSH" ? document.body.scrollHeight : 'auto';
+    
+    const [ pageWindowHeight, setPageWindowHeight ] = useState(parentWindowHeight);
+
     const paramsAuthorname = props.match.params.full_name;
     const paramsReponame = props.match.params.name;
 
-    const parentWindowHeight = document.body.scrollHeight;
-    console.log(parentWindowHeight);
-
     useEffect(() => {
-        // disable browser overflow
-        // document.documentElement.style.overflow = 'hidden';
-        // document.body.scroll = "no";
-
+        window.scrollTo({top: 0, behavior: 'smooth'});
         receiveReopInfo(paramsAuthorname, paramsReponame);
-
     },[paramsAuthorname]);
 
     const receiveReopInfo = async(author, name) =>{
@@ -50,11 +47,19 @@ const RepoDetail = (props)=>{
             var readmeDecode = atob(contentResult.data.content);
             setRepoContent(readmeDecode);
 
+            var readmeContentContainer = document.querySelector('.repoDetails').scrollHeight;
+            var windowScrollHeight = document.body.scrollHeight;
+            if( readmeContentContainer > windowScrollHeight ){
+                var contentHeight = "auto";
+            }else{
+                var contentHeight = windowScrollHeight;
+            }
+            setPageWindowHeight(contentHeight)
         });
     }
 
     return(
-        <div className="repoDetails flex" style={{ height: parentWindowHeight }}>
+        <div className="repoDetails flex" style={{ height: pageWindowHeight }}>
             <nav className="navbar navbar-dark bg-dark justify-content-between text-white">
                 <div className="row">
                     <div className=" col-md-4 col-4">
@@ -112,7 +117,7 @@ const RepoDetail = (props)=>{
                                     <div className="card-block">
                                         <div className="card-title mt-2 pb-2 font-weight-bolder border-bottom">README.md</div>
                                         <div className="card-body">
-                                            <ReactMarkdown source={repoContent} />
+                                            <ReactMarkdown source={repoContent} escapeHtml={false} />
                                         </div>
                                     </div>
                                 </div>
