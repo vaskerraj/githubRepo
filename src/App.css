@@ -128,3 +128,6 @@
 .repoDetails .navbar{
   display: block;
 }
+.Owner-avatar {
+  height: 150px;
+}
