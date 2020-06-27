@@ -9,7 +9,7 @@ This project was build with [Create React App](https://github.com/facebook/creat
 
 [Nodejs](https://nodejs.org/en/) v10.15.3
 
-### `Used npm packages`
+## Used npm packages 
 1. axios 0.19.2
 2. bootstrap 4.5.0
 3. moment 2.27.0
