@@ -45,8 +45,6 @@ const RepoDetail = (props)=>{
             console.log(contentResult.data);
 
             var readmeDecode = atob(contentResult.data.content);
-            
-            document.querySelector(".readmeContent").innerHTML = readmeDecode;
             setRepoContent(readmeDecode);
 
         });
@@ -85,7 +83,14 @@ const RepoDetail = (props)=>{
                                 
                             </div>
                             <div className="col-md-8 mt-4 border-left border-gray">
-                                <ReactMarkdown source={repoContent} />
+                                <div className="card mb-2">
+                                    <div className="card-block">
+                                        <div className="card-title mt-2 pb-2 border-bottom">README.md</div>
+                                        <div className="card-body">
+                                            <ReactMarkdown source={repoContent} />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )
