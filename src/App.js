@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, useHistory, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Main from './components/Main';
 import RepoDetail from './components/RepoDetail';
