@@ -6,9 +6,10 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Reposlist from './Reposlist';
+import Spinner from './Spinner';
 
 const Main = () => {
-
+    const [ isLoading, setIsLoading] = useState('none');
     const [ searchRepoInput, setSearchRepoInput ] = useState('');
     const [isEmptySearchClass, setisEmptySearchClass] = useState('searchInput');
 
@@ -26,7 +27,18 @@ const Main = () => {
         if(searchRepoInput !== ''){
             receiveRepoData();
         }
+        
     }, [reposPageNo, sortReposPerPage, sortRepo, orderRepo]);
+
+    useEffect(()=>{
+        if(isLoading == "none"){
+            document.documentElement.style.overflow = 'auto';
+            document.body.scroll = "yes";
+        }else{
+            document.documentElement.style.overflow = 'hidden';
+            document.body.scroll = "no";
+        }
+    }, [isLoading]);
 
     const handleSearchOnChange = (e) =>{
         setSearchRepoInput(e.target.value);
@@ -46,6 +58,7 @@ const Main = () => {
 
             // update state of repos
             setRepos(result.data);
+            setIsLoading('none');
 
             setTotalRepos(result.data.total_count);
 
@@ -67,17 +80,21 @@ const Main = () => {
             return;
         }
 
+        setIsLoading('block');
+
         // call function  for data reterive
         receiveRepoData();
     }
 
     const handlePageChange = (pageNumber) =>{
         setReposPageNo(pageNumber);
+        setIsLoading('block');
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     const handlePerPageChange = (e) =>{
         setReposPageNo(1); // update state if pageno not exist while per_page change
+        setIsLoading('block');
         setSortReposPerPage(e.target.value);
     }
 
@@ -107,6 +124,8 @@ const Main = () => {
             setSortRepo('updated');
             setOrderRepo('asc');
         }
+        
+        setIsLoading('block');
     }
 
     return(
@@ -121,6 +140,9 @@ const Main = () => {
             </form>
         </nav>
         <div className="container">
+            <div className="flex justify-content-center loading" style={{ display : isLoading}}>
+                <Spinner />
+            </div>
         {totalRepos !== 0 &&
             (
             <div>
