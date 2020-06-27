@@ -2,9 +2,6 @@ import React , {useState, useEffect} from 'react';
 import axios from 'axios';
 import Pagination from "react-js-pagination";
 
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import Reposlist from './Reposlist';
 import Spinner from './Spinner';
 
@@ -135,7 +132,7 @@ const Main = () => {
             <form className="form-inline" onSubmit={handleSearchOnSubmit}>
             <input className={isEmptySearchClass} type="search" placeholder="Search repository" onChange={handleSearchOnChange} />
             <button className="searchButton my-2 my-sm-0" type="submit">
-                <FontAwesomeIcon icon={faSearch} />
+                <span className="fa fa-search"></span>
             </button>
             </form>
         </nav>
