@@ -31,7 +31,7 @@ const Main = () => {
     }, [reposPageNo, sortReposPerPage, sortRepo, orderRepo]);
 
     useEffect(()=>{
-        if(isLoading == "none"){
+        if(isLoading === "none"){
             document.documentElement.style.overflow = 'auto';
             document.body.scroll = "yes";
         }else{
