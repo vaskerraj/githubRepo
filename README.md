@@ -16,7 +16,7 @@ This project was build with [Create React App](https://github.com/facebook/creat
 4. moment-timezone 0.5.31
 5. react-js-pagination 3.0.3
 6. react-markdown 4.3.1
-7. react-moment 0.9.7
+7. react-moment  0.9.7
 8. react-router-dom 5.2.
 9. react-fontawesome 1.7.1
 
