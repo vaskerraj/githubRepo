@@ -4,6 +4,7 @@ import Pagination from "react-js-pagination";
 
 import Reposlist from './Reposlist';
 import Spinner from './Spinner';
+import Toast from './Toast';
 
 const Main = () => {
     const [ isLoading, setIsLoading] = useState('none');
@@ -19,6 +20,8 @@ const Main = () => {
     const [totalRepos , setTotalRepos] = useState('');
     const [totalPaging, setTotalPaging] = useState(0);
     const [ reposPageNo, setReposPageNo ] = useState(1);
+
+    const [apiError, setApiError] = useState('');
 
     useEffect(() => {
         if(searchRepoInput !== ''){
@@ -60,7 +63,28 @@ const Main = () => {
             setTotalRepos(result.data.total_count);
 
             const pageAfterResult = Math.ceil(result.data.total_count / sortReposPerPage);
+
             setTotalPaging(pageAfterResult);
+            
+        }).catch(function (error) {
+            if (error.response) {
+                setIsLoading('none');
+                setApiError("URL not found!!!");
+
+            } else if (error.request) {
+                console.log(error.request);
+
+                setIsLoading('none');
+                setApiError("Check your internet connection.");
+              
+            } else {
+                console.log('Error', error.message);
+                
+                setIsLoading('none');
+                setApiError(error.message);
+                
+            }
+        
         });
     }
 
@@ -204,6 +228,11 @@ const Main = () => {
                 )
             }
         </div>
+        {apiError !== '' &&
+            (
+            <Toast message={apiError} />
+            )
+        }
         </div>
     );
 }
