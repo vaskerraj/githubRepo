@@ -16,7 +16,7 @@ const Main = () => {
 
     const [repos, setRepos ] = useState([]);
 
-    const [totalRepos , setTotalRepos] = useState(0);
+    const [totalRepos , setTotalRepos] = useState('');
     const [totalPaging, setTotalPaging] = useState(0);
     const [ reposPageNo, setReposPageNo ] = useState(1);
 
@@ -138,64 +138,71 @@ const Main = () => {
         </nav>
         <div className="container">
             <Spinner isLoading={isLoading} />
-        {totalRepos !== 0 &&
-            (
-            <div>
-                <div className="row mt-2">
-                    <div className="col-md-4 col-6 text-dark border-gray border-right">
-                        <h3 className="mt-3 text-left">{repos.total_count} repository results </h3>
-                    </div>
-                    <div className="col-md-2 col-sm-6 col-6 h-100 text-center text-secondary mt-md-3 mt-4">
-                        <div className="mt-1">
-                            <span className="pageText mr-2">Page</span>
-                            <span className="font-weight-bold">{reposPageNo} / </span> 
-                            <span className="font-weight-bold">{totalPaging}</span>
+
+            {totalRepos !== '' && totalRepos == 0 &&
+                (
+                <div className="noRepoFound col text-center text-muted mt-3">Repositories doesn't matching '{searchRepoInput}'</div>
+                )
+            }
+
+            {totalRepos !== '' && totalRepos !== 0 &&
+                (
+                <div>
+                    <div className="row mt-2">
+                        <div className="col-md-4 col-6 text-dark border-gray border-right">
+                            <h3 className="mt-3 text-left">{repos.total_count} repository results </h3>
+                        </div>
+                        <div className="col-md-2 col-sm-6 col-6 h-100 text-center text-secondary mt-md-3 mt-4">
+                            <div className="mt-1">
+                                <span className="pageText mr-2">Page</span>
+                                <span className="font-weight-bold">{reposPageNo} / </span> 
+                                <span className="font-weight-bold">{totalPaging}</span>
+                            </div>
+                        </div>
+                        <div className="col-md-2 col-sm-6 col-6 h-100 text-center border-gray border-left border-right mt-3">
+                            <div className="mt-1">
+                                <select className="sortPerPage" onChange={(e) => handlePerPageChange(e)} value={sortReposPerPage} >
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span className="mr-2"> Entries </span>
+                            </div>
+                        </div>
+                        <div className="col-md-4 col-sm-6 col-6 h-100 mt-2 text-right">
+                            <div className="mt-2">
+                                <span className="mr-2">Sort</span>
+                                <select className="sortRepos" onChange={(e) => handleSortChange(e)} >
+                                    <option>Best match</option>
+                                    <option>Most star</option>
+                                    <option>Fewest star</option>
+                                    <option>Most forks</option>
+                                    <option>Fewest forks</option>
+                                    <option>Recently updated</option>
+                                    <option>Least recently updated</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-md-2 col-sm-6 col-6 h-100 text-center border-gray border-left border-right mt-3">
-                        <div className="mt-1">
-                            <select className="sortPerPage" onChange={(e) => handlePerPageChange(e)} value={sortReposPerPage} >
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                            </select>
-                            <span className="mr-2"> Entries </span>
-                        </div>
+                    <div className="row">
+                        <Reposlist repos={repos} />
                     </div>
-                    <div className="col-md-4 col-sm-6 col-6 h-100 mt-2 text-right">
-                        <div className="mt-2">
-                            <span className="mr-2">Sort</span>
-                            <select className="sortRepos" onChange={(e) => handleSortChange(e)} >
-                                <option>Best match</option>
-                                <option>Most star</option>
-                                <option>Fewest star</option>
-                                <option>Most forks</option>
-                                <option>Fewest forks</option>
-                                <option>Recently updated</option>
-                                <option>Least recently updated</option>
-                            </select>
-                        </div>
+                    <div className="d-flex">
+                    <Pagination
+                        prevPageText='Prev'
+                        nextPageText='Next'
+                        firstPageText='First'
+                        lastPageText='Last'
+                        activePage={reposPageNo}
+                        itemsCountPerPage={sortReposPerPage}
+                        totalItemsCount={totalRepos}
+                        pageRangeDisplayed={5}
+                        onChange={ handlePageChange }
+                        />
                     </div>
                 </div>
-                <div className="row">
-                    <Reposlist repos={repos} />
-                </div>
-                <div className="d-flex">
-                <Pagination
-                    prevPageText='Prev'
-                    nextPageText='Next'
-                    firstPageText='First'
-                    lastPageText='Last'
-                    activePage={reposPageNo}
-                    itemsCountPerPage={sortReposPerPage}
-                    totalItemsCount={totalRepos}
-                    pageRangeDisplayed={5}
-                    onChange={ handlePageChange }
-                    />
-                </div>
-            </div>
-            )
-        }
+                )
+            }
         </div>
         </div>
     );
