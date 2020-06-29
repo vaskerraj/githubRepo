@@ -42,6 +42,9 @@ const Main = () => {
 
     const handleSearchOnChange = (e) =>{
         setSearchRepoInput(e.target.value);
+        if(totalRepos !== '' && totalRepos == 0){
+            setTotalRepos('');
+        }
     }
 
     const receiveRepoData = async() =>{
